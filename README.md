@@ -60,3 +60,10 @@ Describe PlayerOneHold() && PlayerTwoHold
 Test: "It should perform the updateScore method on the player object"
 Code: playerOneHold();
 Expected Output: playerOne{score += turnTotal}
+
+Test: "It should check if the players score is 100 or greater"
+Code: playerOneHold(); playerOne.score ==== 100
+Expected Output: player one is the winner
+
+
+// UI note simple ui player one and two have seperate roll and hold buttons score is displayed above player

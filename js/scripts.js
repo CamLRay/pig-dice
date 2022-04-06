@@ -68,13 +68,30 @@ function playerTwoRoll() {
 }
 
 function playerOneHold() {
-  
+  playerOne.updateScore();
+  if(playerOne.score >= 100) {
+    return console.log(playerOne.playerName + " is the Winner!")
+  }
+  return playerOne.score;
 }
 
-console.log(playerOneRoll());
-console.log(playerOneRoll());
-console.log(playerOneRoll());
-console.log(playerOneRoll());
-console.log(playerOneRoll());
-console.log(playerOneRoll());
+function playerTwoHold() {
+  playerTwo.updateScore();
+}
+
+
+
+console.log("Roll: " + playerOneRoll());
+console.log("total Score:" + playerOneHold());
+console.log("Roll: " + playerOneRoll());
+console.log("total Score:" + playerOneHold());
+console.log("Roll: " + playerOneRoll());
+console.log("total Score:" + playerOneHold());
+console.log("Roll: " + playerOneRoll());
+console.log("total Score:" + playerOneHold());
+console.log("Roll: " + playerOneRoll());
+console.log("total Score:" + playerOneHold());
+console.log("Roll: " + playerOneRoll());
+console.log("total Score:" + playerOneHold());
+
 
