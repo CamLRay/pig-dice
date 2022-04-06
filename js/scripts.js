@@ -21,13 +21,16 @@ Player.prototype.updateTotal = function(roll) {
   this.turnTotal += roll;
 }
 
-
+Player.prototype.updateScore = function() {
+  this.score += this.turnTotal;
+}
 
 let playerOne = new Player("player 1", "Cameron", 0, 15);
 let playerTwo = new Player("player 2", "Tony", 15, 45);
 
-playerOne.updateTotal(10);
+playerOne.updateTotal(6);
 playerOne.updateTotal(5);
+playerOne.updateScore();
 console.log(playerOne);
 
 
