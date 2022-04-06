@@ -1,0 +1,25 @@
+body {
+  margin-top: 10%;
+  background-color: rgb(250, 198, 28);
+  text-align: center;
+}
+
+.container {
+  margin: auto;
+  border: 2px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+.highlight {
+  color: rgb(17, 0, 255);
+}
+
+.hidden {
+  display:none; 
+}
+
+img {
+  border:3px solid black;
+  width: 200px;
+  height: 150px;
+}

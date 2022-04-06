@@ -1,5 +1,7 @@
 function PigDice() {
   this.players = {};
+  this.lastRoll = {};
+  this.images = ["dOne.png", "dTwo.png", "dThree.png", "dFour.png", "dFive.png", "dSix.png"];
 }
 
 let pigDice = new PigDice();
@@ -29,18 +31,6 @@ Player.prototype.updateScore = function() {
 let playerOne = new Player("player 1", "Cameron", 0, 0);
 let playerTwo = new Player("player 2", "Tony", 0, 0);
 
-// // hard coded gameplay
-// playerOne.updateTotal(6);
-// playerOne.updateTotal(5);
-// playerOne.updateScore();
-// playerTwo.updateTotal(3);
-// playerTwo.updateTotal(2);
-// playerTwo.updateTotal(6);
-// playerTwo.updateScore();
-// console.log(playerOne);
-// console.log(playerTwo);
-// // hard coded gameplay
-
 // Business Logic
 
 function theDie() {
@@ -49,6 +39,7 @@ function theDie() {
 
 function playerOneRoll() {
   let roll = theDie();
+  pigDice.lastRoll = roll;
   if(roll === 1){
     playerOne.turnTotal = 0;
   } else {
@@ -59,6 +50,7 @@ function playerOneRoll() {
 
 function playerTwoRoll() {
   let roll = theDie();
+  pigDice.lastRoll = roll;
   if(roll === 1){
     playerTwo.turnTotal = 0;
   } else {
@@ -69,29 +61,68 @@ function playerTwoRoll() {
 
 function playerOneHold() {
   playerOne.updateScore();
-  if(playerOne.score >= 100) {
-    return console.log(playerOne.playerName + " is the Winner!")
-  }
   return playerOne.score;
 }
 
 function playerTwoHold() {
   playerTwo.updateScore();
+  return playerTwo.score;
 }
 
 
+//UI Logic 
+$(document).ready(function(){ 
+  $("#player-one-name").text(playerOne.playerName);
+  $("#player-two-name").text(playerTwo.playerName);
 
-console.log("Roll: " + playerOneRoll());
-console.log("total Score:" + playerOneHold());
-console.log("Roll: " + playerOneRoll());
-console.log("total Score:" + playerOneHold());
-console.log("Roll: " + playerOneRoll());
-console.log("total Score:" + playerOneHold());
-console.log("Roll: " + playerOneRoll());
-console.log("total Score:" + playerOneHold());
-console.log("Roll: " + playerOneRoll());
-console.log("total Score:" + playerOneHold());
-console.log("Roll: " + playerOneRoll());
-console.log("total Score:" + playerOneHold());
+  $("#player-one-roll").click(function(){
+    playerOneRoll();
+    $("#player-one-turn-total").text(playerOne.turnTotal);
+    $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
+  });
 
+  $("#player-one-hold").click(function(){
+    playerOneHold();
+    $("#player-one-turn-total").empty();
+    $("#player-one-score").text(playerOne.score);
+    $("#player-one-name, #player-two-name").toggleClass("highlight");
+    $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
+  });
 
+  $("#player-two-roll").click(function(){
+    playerTwoRoll();
+    $("#player-two-turn-total").text(playerTwo.turnTotal);
+    $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
+  });
+
+  $("#player-two-hold").click(function(){
+    playerTwoHold();
+    $("#player-two-turn-total").empty();
+    $("#player-two-score").text(playerTwo.score);
+    $("#player-one-name, #player-two-name").toggleClass("highlight");
+    $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
+  });
+  $("button").click(function() {
+
+    if (pigDice.lastRoll === 1) {
+      $("#player-one-name, #player-two-name").toggleClass("highlight");
+      $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
+    }
+    if (playerOne.score >= 100) {
+      $("#game").addClass("hidden")
+      $("#winner").removeClass("hidden")
+      $("#winner").html("<h1>"+ playerOne.playerName+ " is the winner!" +"</h1>")
+    } else if (playerTwo.score >= 100) {
+      $("#game").addClass("hidden")
+      $("#winner").removeClass("hidden")
+      $("#winner").html("<h1>"+ playerTwo.playerName+ " is the winner!" +"</h1>")
+    } else {}
+  });
+
+  
+});
+
+//$() <---- selector $("itembeingselected") -> #id's .classes htmlTag
+// html seperated-by-dash
+// function and variables lowerCamelCase
+// constructors UpperCamelCase
