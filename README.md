@@ -24,7 +24,12 @@ code: new PigDice();
 Expected Output: players: {}
 
 Describe Player(playerName, turn total, score);
-Test: "it should construct the player object"
+Test: "It should construct the player object"
 Code: new Player(Name, 15, 15);
-expected output: 
-Player {playerName: name, turnTotal: 15, score: 15}
+Expected output: Player {playerName: name, turnTotal: 15, score: 15}
+
+Describe PigDice.prototype.addPlayer();
+Test "It should add players to the PigDice Object"
+Code: pigDice.addPlayer(player);
+Expected Output: pigDice {player}
+
