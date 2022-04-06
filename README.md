@@ -33,3 +33,12 @@ Test "It should add players to the PigDice Object"
 Code: pigDice.addPlayer(player);
 Expected Output: pigDice {player}
 
+Describe PigDice.prototype.updateTotal();
+Test: "It should add a players roll to the turn total"
+Code: player1.updateTotal(5);
+Expect Output: player1 {turnTotal: 5}
+
+Describe PigDive.prototype.updateScore();
+Test: "It should add a players turnTotal to their score"
+Code: playerOne.updateScore();
+Expect Output: playerOne {turnTotal:15 score:0+15}

@@ -17,8 +17,19 @@ function Player(playerNum, playerName, turnTotal, score) {
   this.score = score;
 }
 
-let playerOne = new Player("player 1", "Cameron", 15, 15);
+Player.prototype.updateTotal = function(roll) {
+  this.turnTotal += roll;
+}
+
+
+
+let playerOne = new Player("player 1", "Cameron", 0, 15);
 let playerTwo = new Player("player 2", "Tony", 15, 45);
+
+playerOne.updateTotal(10);
+playerOne.updateTotal(5);
+console.log(playerOne);
+
 
 function theDie() {
   return Math.floor(Math.random()*5)+1
