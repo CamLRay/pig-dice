@@ -18,3 +18,13 @@ Test: "It should return a random number among 1-6"
 Code : theDie();
 Expected Output: 1 || 2 || 3 || 4 || 5 || 6
 
+Describe PigDice();
+Test: "It should construct the game object"
+code: new PigDice();
+Expected Output: players: {}
+
+Describe Player(playerName, turn total, score);
+Test: "it should construct the player object"
+Code: new Player(Name, 15, 15);
+expected output: 
+Player {playerName: name, turnTotal: 15, score: 15}
