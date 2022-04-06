@@ -67,3 +67,5 @@ Expected Output: player one is the winner
 
 
 // UI note simple ui player one and two have seperate roll and hold buttons score is displayed above player
+```Goals for tomorrow```
+players can click on their names and update the name to something else

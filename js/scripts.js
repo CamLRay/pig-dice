@@ -121,8 +121,5 @@ $(document).ready(function(){
 
   
 });
-
-//$() <---- selector $("itembeingselected") -> #id's .classes htmlTag
-// html seperated-by-dash
-// function and variables lowerCamelCase
-// constructors UpperCamelCase
+//Things for tomorrow
+// players can click on their names and update the name to something else
