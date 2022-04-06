@@ -47,17 +47,28 @@ function theDie() {
   return Math.floor(Math.random()*5)+1
 }
 
-// Describe playerOneRoll();
-// Test: "It should roll the die, and update the turnScore of playerOne"
-// Code: playerOneRoll();
-// Expected Output: PlayerOne{turnTotal += roll}
-
-// roll the Die take that number add it to the playerOne turnTotal If the roll is 1 playerOne turn total goes to 0 and the turn ends
-//let playerOne = new Player("player 1", "Cameron", 0, 0);
 function playerOneRoll() {
   let roll = theDie();
-  playerOne.updateTotal(roll);
+  if(roll === 1){
+    playerOne.turnTotal = 0;
+  } else {
+    playerOne.updateTotal(roll);
+  }
   return playerOne.turnTotal;
+}
+
+function playerTwoRoll() {
+  let roll = theDie();
+  if(roll === 1){
+    playerTwo.turnTotal = 0;
+  } else {
+    playerTwo.updateTotal(roll);
+  }
+  return playerTwo.turnTotal;
+}
+
+function playerOneHold() {
+  
 }
 
 console.log(playerOneRoll());

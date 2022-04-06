@@ -47,7 +47,16 @@ Test: "It should clear the turnTotal"
 Code: playerOne.updateScore();
 Expect Output: playerOne {turnTotal:0 score:15}
 
-Describe playerOneRoll();
+Describe playerOneRoll() && PlayerTwoRoll();
 Test: "It should roll the die, and update the turnScore of playerOne"
 Code: playerOneRoll();
 Expected Output: PlayerOne{turnTotal += roll}
+
+Test:"If the die roll is 1 TurnScore is set to 0"
+Code: playerOneRoll();
+Expected Output: playerOne{turnTotal = 0}
+
+Describe PlayerOneHold() && PlayerTwoHold
+Test: "It should perform the updateScore method on the player object"
+Code: playerOneHold();
+Expected Output: playerOne{score += turnTotal}
