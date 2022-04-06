@@ -21,15 +21,19 @@ function Player(playerNum, playerName, turnTotal, score) {
 
 Player.prototype.updateTotal = function(roll) {
   this.turnTotal += roll;
-}
+};
 
 Player.prototype.updateScore = function() {
   this.score += this.turnTotal;
   this.turnTotal = 0;
-}
+};
 
-let playerOne = new Player("player 1", "Cameron", 0, 0);
-let playerTwo = new Player("player 2", "Tony", 0, 0);
+Player.prototype.updateName = function(newName) {
+  this.playerName = newName;
+};
+
+let playerOne = new Player("player 1", "Player Name", 0, 0);
+let playerTwo = new Player("player 2", "Player Name", 0, 0);
 
 // Business Logic
 
@@ -111,15 +115,21 @@ $(document).ready(function(){
     if (playerOne.score >= 100) {
       $("#game").addClass("hidden")
       $("#winner").removeClass("hidden")
-      $("#winner").html("<h1>"+ playerOne.playerName+ " is the winner!" +"</h1>")
+      $("#winner").children("h1").text(playerOne.playerName+ " is the winner!")
     } else if (playerTwo.score >= 100) {
       $("#game").addClass("hidden")
       $("#winner").removeClass("hidden")
-      $("#winner").html("<h1>"+ playerTwo.playerName+ " is the winner!" +"</h1>")
+      $("#winner").children("h1").text(playerTwo.playerName+ " is the winner!")
     } else {}
   });
-
-  
+  $("#play-again").click(function() {
+    playerOne.turnTotal = 0;
+    playerOne.score = 0;
+    playerTwo.turnTotal = 0;
+    playerTwo.score = 0;
+    $("#player-one-turn-total, #player-one-score, #player-two-turn-total, #player-two-score").empty();
+    $("#winner, #game").toggleClass("hidden");
+  });
 });
 //Things for tomorrow
 // players can click on their names and update the name to something else
