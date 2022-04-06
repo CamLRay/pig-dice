@@ -38,7 +38,7 @@ Test: "It should add a players roll to the turn total"
 Code: player1.updateTotal(5);
 Expect Output: player1 {turnTotal: 5}
 
-Describe PigDive.prototype.updateScore();
+Describe PigDice.prototype.updateScore();
 Test: "It should add a players turnTotal to their score"
 Code: playerOne.updateScore();
 Expect Output: playerOne {turnTotal:15 score:0+15}
@@ -46,3 +46,8 @@ Expect Output: playerOne {turnTotal:15 score:0+15}
 Test: "It should clear the turnTotal"
 Code: playerOne.updateScore();
 Expect Output: playerOne {turnTotal:0 score:15}
+
+Describe playerOneRoll();
+Test: "It should roll the die, and update the turnScore of playerOne"
+Code: playerOneRoll();
+Expected Output: PlayerOne{turnTotal += roll}
