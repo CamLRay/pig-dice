@@ -42,3 +42,7 @@ Describe PigDive.prototype.updateScore();
 Test: "It should add a players turnTotal to their score"
 Code: playerOne.updateScore();
 Expect Output: playerOne {turnTotal:15 score:0+15}
+
+Test: "It should clear the turnTotal"
+Code: playerOne.updateScore();
+Expect Output: playerOne {turnTotal:0 score:15}

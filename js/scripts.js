@@ -23,18 +23,27 @@ Player.prototype.updateTotal = function(roll) {
 
 Player.prototype.updateScore = function() {
   this.score += this.turnTotal;
+  this.turnTotal = 0;
 }
 
-let playerOne = new Player("player 1", "Cameron", 0, 15);
-let playerTwo = new Player("player 2", "Tony", 15, 45);
+let playerOne = new Player("player 1", "Cameron", 0, 0);
+let playerTwo = new Player("player 2", "Tony", 0, 0);
 
+// hard coded gameplay
 playerOne.updateTotal(6);
 playerOne.updateTotal(5);
 playerOne.updateScore();
+playerTwo.updateTotal(3);
+playerTwo.updateTotal(2);
+playerTwo.updateTotal(6);
+playerTwo.updateScore();
 console.log(playerOne);
-
+console.log(playerTwo);
+// hard coded gameplay
 
 function theDie() {
   return Math.floor(Math.random()*5)+1
 }
+
+
 
