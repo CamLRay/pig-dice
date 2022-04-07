@@ -1,6 +1,7 @@
 function PigDice() {
   this.players = {};
-  this.lastRoll = {};
+  this.lastRoll = "";
+  this.gameType = "";
   this.images = ["dOne.png", "dTwo.png", "dThree.png", "dFour.png", "dFive.png", "dSix.png"];
 }
 
@@ -10,6 +11,10 @@ let pigDice = new PigDice();
 
 PigDice.prototype.addPlayer = function(player) {
   this.players[player.playerNum] = player;
+};
+
+PigDice.prototype.updateGameType = function(selectedGameType) {
+  this.gameType = selectedGameType;
 };
 
 function Player(playerNum, playerName, turnTotal, score) {
@@ -31,9 +36,6 @@ Player.prototype.updateScore = function() {
 Player.prototype.updateName = function(newName) {
   this.playerName = newName;
 };
-// Player Objects
-let playerOne = new Player("player 1", "Player 1", 0, 0); 
-let playerTwo = new Player("player 2", "Player 2", 0, 0);
 
 // Business Logic
 
@@ -45,131 +47,151 @@ function playerOneRoll() {
   let roll = theDie();
   pigDice.lastRoll = roll;
   if(roll === 1){
-    playerOne.turnTotal = 0;
+    pigDice.players.playerOne.turnTotal = 0;
   } else {
-    playerOne.updateTotal(roll);
+    pigDice.players.playerOne.updateTotal(roll);
   }
-  return playerOne.turnTotal;
+  return pigDice.players.playerOne.turnTotal;
 }
 
 function playerTwoRoll() {
   let roll = theDie();
   pigDice.lastRoll = roll;
   if(roll === 1){
-    playerTwo.turnTotal = 0;
+    pigDice.players.playerTwo.turnTotal = 0;
   } else {
-    playerTwo.updateTotal(roll);
+    pigDice.players.playerTwo.updateTotal(roll);
   }
-  return playerTwo.turnTotal;
+  return pigDice.players.playerTwo.turnTotal;
 }
 
 function playerOneHold() {
-  playerOne.updateScore();
-  return playerOne.score;
+  pigDice.players.playerOne.updateScore();
+  return pigDice.players.playerOne.score;
 }
 
 function playerTwoHold() {
-  playerTwo.updateScore();
-  return playerTwo.score;
+  pigDice.players.playerTwo.updateScore();
+  return pigDice.players.playerTwo.score;
 }
 
-// $("#game")---game div  $("#player-selection")---player selection div $("#number-of-players")--- player selection form
 //UI Logic 
 $(document).ready(function(){ 
   $("#number-of-players").submit(function(event){
     event.preventDefault();
     $("#game").removeClass("hidden");
     $("#player-selection").addClass("hidden");
-  });
+    pigDice.updateGameType($("#number-of-players").children().val());
 
-  $("#player-one-name").text("Enter a Name");
-  $("#player-two-name").text("Enter a Name");
-
-  $("#player-one-name").click(function(){
-    $("#player-one-name").addClass("hidden");
-    $("#player-one-name-update").parent().parent().removeClass("hidden")
-  });
-
-  $("#player-two-name").click(function(){
-    $("#player-two-name").addClass("hidden");
-    $("#player-two-name-update").parent().parent().removeClass("hidden")
-  });
-
-  $("#player-one-name-update").parent().submit(function(event){
-    event.preventDefault();
-    playerOne.playerName = $("#player-one-name-update").val();
-    if (playerOne.playerName.trim() === "") {
-      
+    if (pigDice.gameType === "1p"){
+      let playerOne = new Player("playerOne", "Player 1", 0, 0);
+      pigDice.addPlayer(playerOne);
+      let computerPlayer = new Player("computer", "Computer", 0, 0);
+      pigDice.addPlayer(computerPlayer);
+    } else if(pigDice.gameType === "2p") {
+      let playerOne = new Player("playerOne", "Player 1", 0, 0);
+      pigDice.addPlayer(playerOne);
+      let playerTwo = new Player("playerTwo", "Player 2", 0, 0);
+      pigDice.addPlayer(playerTwo);
     } else {
-      $("#player-one-name").text(playerOne.playerName);
-      $("#player-one-name").removeClass("hidden");
-      $("#player-one-name-update").parent().parent().addClass("hidden")
+      alert("select a player!");
     }
   });
 
-  $("#player-two-name-update").parent().submit(function(event){
+  $("#number-of-players").submit(function(event){
     event.preventDefault();
-    playerTwo.playerName = $("#player-two-name-update").val();
-    if (playerTwo.playerName.trim() === "") {
-      
+    if(pigDice.gameType === "2p") {
+      $("#player-one-name").text("Enter a Name");
+      $("#player-two-name").text("Enter a Name");
+
+      $("#player-one-name").click(function(){
+        $("#player-one-name").addClass("hidden");
+        $("#player-one-name-update").parent().parent().removeClass("hidden")
+      });
+
+      $("#player-two-name").click(function(){
+        $("#player-two-name").addClass("hidden");
+        $("#player-two-name-update").parent().parent().removeClass("hidden")
+      });
+
+      $("#player-one-name-update").parent().submit(function(event){
+        event.preventDefault();
+        pigDice.players.playerOne.playerName = $("#player-one-name-update").val();
+        if (pigDice.players.playerOne.playerName.trim() === "") {
+          
+        } else {
+          $("#player-one-name").text(pigDice.players.playerOne.playerName);
+          $("#player-one-name").removeClass("hidden");
+          $("#player-one-name-update").parent().parent().addClass("hidden")
+        }
+      });
+
+      $("#player-two-name-update").parent().submit(function(event){
+        event.preventDefault();
+        pigDice.players.playerTwo.playerName = $("#player-two-name-update").val();
+        if (pigDice.players.playerTwo.playerName.trim() === "") {
+          
+        } else {
+          $("#player-two-name").text(pigDice.players.playerTwo.playerName);
+          $("#player-two-name").removeClass("hidden");
+          $("#player-two-name-update").parent().parent().addClass("hidden")
+        }
+      });
+
+
+    // gameplay below this
+      $("#player-one-roll").click(function(){
+        playerOneRoll();
+        $("#player-one-turn-total").text(pigDice.players.playerOne.turnTotal);
+        $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
+      });
+
+      $("#player-one-hold").click(function(){
+        playerOneHold();
+        $("#player-one-turn-total").empty();
+        $("#player-one-score").text(pigDice.players.playerOne.score);
+        $("#player-one-name, #player-two-name").toggleClass("highlight");
+        $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
+      });
+
+      $("#player-two-roll").click(function(){
+        playerTwoRoll();
+        $("#player-two-turn-total").text(pigDice.players.playerTwo.turnTotal);
+        $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
+      });
+
+      $("#player-two-hold").click(function(){
+        playerTwoHold();
+        $("#player-two-turn-total").empty();
+        $("#player-two-score").text(pigDice.players.playerTwo.score);
+        $("#player-one-name, #player-two-name").toggleClass("highlight");
+        $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
+      });
+
+      $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").click(function() {
+        if (pigDice.lastRoll === 1) {
+          $("#player-one-name, #player-two-name").toggleClass("highlight");
+          $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
+        }
+        if (pigDice.players.playerOne.score >= 100) {
+          $("#game").addClass("hidden")
+          $("#winner").removeClass("hidden")
+          $("#winner").children("h1").text(pigDice.players.playerOne.playerName+ " is the winner!")
+        } else if (pigDice.players.playerTwo.score >= 100) {
+          $("#game").addClass("hidden")
+          $("#winner").removeClass("hidden")
+          $("#winner").children("h1").text(pigDice.players.playerTwo.playerName+ " is the winner!")
+        } else {}
+      });
     } else {
-      $("#player-two-name").text(playerTwo.playerName);
-      $("#player-two-name").removeClass("hidden");
-      $("#player-two-name-update").parent().parent().addClass("hidden")
+      //single player logic goes here
     }
   });
-
-
-// gameplay below this
-  $("#player-one-roll").click(function(){
-    playerOneRoll();
-    $("#player-one-turn-total").text(playerOne.turnTotal);
-    $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
-  });
-
-  $("#player-one-hold").click(function(){
-    playerOneHold();
-    $("#player-one-turn-total").empty();
-    $("#player-one-score").text(playerOne.score);
-    $("#player-one-name, #player-two-name").toggleClass("highlight");
-    $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
-  });
-
-  $("#player-two-roll").click(function(){
-    playerTwoRoll();
-    $("#player-two-turn-total").text(playerTwo.turnTotal);
-    $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
-  });
-
-  $("#player-two-hold").click(function(){
-    playerTwoHold();
-    $("#player-two-turn-total").empty();
-    $("#player-two-score").text(playerTwo.score);
-    $("#player-one-name, #player-two-name").toggleClass("highlight");
-    $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
-  });
-  $("button").click(function() {
-
-    if (pigDice.lastRoll === 1) {
-      $("#player-one-name, #player-two-name").toggleClass("highlight");
-      $("#player-one-roll, #player-one-hold, #player-two-roll, #player-two-hold").toggleClass("hidden")
-    }
-    if (playerOne.score >= 100) {
-      $("#game").addClass("hidden")
-      $("#winner").removeClass("hidden")
-      $("#winner").children("h1").text(playerOne.playerName+ " is the winner!")
-    } else if (playerTwo.score >= 100) {
-      $("#game").addClass("hidden")
-      $("#winner").removeClass("hidden")
-      $("#winner").children("h1").text(playerTwo.playerName+ " is the winner!")
-    } else {}
-  });
-
   $("#play-again").click(function() {
-    playerOne.turnTotal = 0;
-    playerOne.score = 0;
-    playerTwo.turnTotal = 0;
-    playerTwo.score = 0;
+    pigDice.players.playerOne.turnTotal = 0;
+    pigDice.players.playerOne.score = 0;
+    pigDice.players.playerTwo.turnTotal = 0;
+    pigDice.players.playerTwo.score = 0;
     $("#player-one-turn-total, #player-one-score, #player-two-turn-total, #player-two-score").empty();
     $("#winner, #game").toggleClass("hidden");
   });
