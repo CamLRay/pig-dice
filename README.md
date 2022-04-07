@@ -70,6 +70,12 @@ Describe: PigDice.prototype.updateGameType();
   Code: pigDice.gameType("1p");
   Expected Output: pigDice {gameType: "1p"}
 
+Describe: computerEasy();
+  Test: "it should roll player two once and hold.
+  Code: computerEasy();
+  Expected Output: rolls once, holds
+
+
 // UI note simple ui player one and two have seperate roll and hold buttons score is displayed above player
 ```Goals for today```
 Ability to play against a computer

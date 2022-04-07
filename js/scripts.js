@@ -75,6 +75,11 @@ function playerTwoHold() {
   return pigDice.players.playerTwo.score;
 }
 
+function computerEasy() {
+  playerTwoRoll();
+  playerTwoHold();
+}
+
 //UI Logic 
 $(document).ready(function(){ 
   $("#number-of-players").submit(function(event){
@@ -86,7 +91,7 @@ $(document).ready(function(){
     if (pigDice.gameType === "1p"){
       let playerOne = new Player("playerOne", "Player 1", 0, 0);
       pigDice.addPlayer(playerOne);
-      let computerPlayer = new Player("computer", "Computer", 0, 0);
+      let computerPlayer = new Player("playerTwo", "Computer", 0, 0);
       pigDice.addPlayer(computerPlayer);
     } else if(pigDice.gameType === "2p") {
       let playerOne = new Player("playerOne", "Player 1", 0, 0);
@@ -185,8 +190,55 @@ $(document).ready(function(){
       });
     } else {
       //single player logic goes here
+      $("#player-one-name").text("Enter a Name");
+      $("#player-two-name").text("Computer");
+      $("#player-one-name").click(function(){
+        $("#player-one-name").addClass("hidden");
+        $("#player-one-name-update").parent().parent().removeClass("hidden")
+      });
+      $("#player-one-name-update").parent().submit(function(event){
+        event.preventDefault();
+        pigDice.players.playerOne.playerName = $("#player-one-name-update").val();
+        if (pigDice.players.playerOne.playerName.trim() === "") {
+          
+        } else {
+          $("#player-one-name").text(pigDice.players.playerOne.playerName);
+          $("#player-one-name").removeClass("hidden");
+          $("#player-one-name-update").parent().parent().addClass("hidden")
+        }
+      });
+      $("#player-one-roll").click(function(){
+        playerOneRoll();
+        if (pigDice.lastRoll === 1) {
+          computerEasy();
+        $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
+        $("#player-two-score").text(pigDice.players.playerTwo.score);
+        }
+        $("#player-one-turn-total").text(pigDice.players.playerOne.turnTotal);
+        $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
+      });
+      $("#player-one-hold").click(function(){
+        playerOneHold();
+        $("#player-one-turn-total").empty();
+        $("#player-one-score").text(pigDice.players.playerOne.score);
+        computerEasy();
+        $("#die-roll").attr("src", "img/"+pigDice.images[pigDice.lastRoll-1]);
+        $("#player-two-score").text(pigDice.players.playerTwo.score);
+      });
+      $("#player-one-roll, #player-one-hold").click(function(){
+      if (pigDice.players.playerOne.score >= 100) {
+        $("#game").addClass("hidden")
+        $("#winner").removeClass("hidden")
+        $("#winner").children("h1").text(pigDice.players.playerOne.playerName+ " is the winner!")
+      } else if (pigDice.players.playerTwo.score >= 100) {
+        $("#game").addClass("hidden")
+        $("#winner").removeClass("hidden")
+        $("#winner").children("h1").text(pigDice.players.playerTwo.playerName+ " is the winner!")
+      } else {}
+    });
     }
   });
+
   $("#play-again").click(function() {
     pigDice.players.playerOne.turnTotal = 0;
     pigDice.players.playerOne.score = 0;
