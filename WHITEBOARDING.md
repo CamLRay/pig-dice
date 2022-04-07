@@ -85,3 +85,34 @@ function sortDino(period, diet, array) {
 we take an array of user data, loop through the array and check each element for two conditions the period needs to equal parameter jurassic and the diet needs to equal the parameter herbivore. if those conditions are met, add it to a new array. once the loop is finished, return our newarray to the user.
 
 
+//////
+
+
+
+[dino1, dino2, dino3, dino4]
+dino1 = {popularity: 999}
+dino2 = {popularity: 959}
+dino3 = {popularity: 500}
+dino4 = {popularity: 903}
+expected output: [dino1, dino2, dino4]
+
+So we want loop through the objects in the array
+and we want to check the popularity value and sort the values by popularity
+then return only the top 3 most popular dinos.
+
+function popularDinos(array) {
+  let popularityArray = [];
+  let popularityArray2 = [];
+  array.forEach(function(dino){
+    popularityArray.push(dino.popularity + " " +   dino)
+  } 
+  let sortedArray = popularityArray.sort().reverse();
+  sortedArray.forEach(function(popDino){
+    let dinoOnly = popDino.split(" ");
+    popularityArray2.push(dinoOnly[1]);
+  });
+  return [popularityArray2[0], popularityArray2[1], popularityArray2[2]]
+}
+
+[dino1, dino2, dino4]
+
