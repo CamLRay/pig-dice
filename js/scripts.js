@@ -31,9 +31,9 @@ Player.prototype.updateScore = function() {
 Player.prototype.updateName = function(newName) {
   this.playerName = newName;
 };
-
-let playerOne = new Player("player 1", "Player Name", 0, 0);
-let playerTwo = new Player("player 2", "Player Name", 0, 0);
+// Player Objects
+let playerOne = new Player("player 1", "Player 1", 0, 0); 
+let playerTwo = new Player("player 2", "Player 2", 0, 0);
 
 // Business Logic
 
@@ -73,12 +73,54 @@ function playerTwoHold() {
   return playerTwo.score;
 }
 
-
+// $("#game")---game div  $("#player-selection")---player selection div $("#number-of-players")--- player selection form
 //UI Logic 
 $(document).ready(function(){ 
-  $("#player-one-name").text(playerOne.playerName);
-  $("#player-two-name").text(playerTwo.playerName);
+  $("#number-of-players").submit(function(event){
+    event.preventDefault();
+    $("#game").removeClass("hidden");
+    $("#player-selection").addClass("hidden");
+  });
 
+  $("#player-one-name").text("Enter a Name");
+  $("#player-two-name").text("Enter a Name");
+
+  $("#player-one-name").click(function(){
+    $("#player-one-name").addClass("hidden");
+    $("#player-one-name-update").parent().parent().removeClass("hidden")
+  });
+
+  $("#player-two-name").click(function(){
+    $("#player-two-name").addClass("hidden");
+    $("#player-two-name-update").parent().parent().removeClass("hidden")
+  });
+
+  $("#player-one-name-update").parent().submit(function(event){
+    event.preventDefault();
+    playerOne.playerName = $("#player-one-name-update").val();
+    if (playerOne.playerName.trim() === "") {
+      
+    } else {
+      $("#player-one-name").text(playerOne.playerName);
+      $("#player-one-name").removeClass("hidden");
+      $("#player-one-name-update").parent().parent().addClass("hidden")
+    }
+  });
+
+  $("#player-two-name-update").parent().submit(function(event){
+    event.preventDefault();
+    playerTwo.playerName = $("#player-two-name-update").val();
+    if (playerTwo.playerName.trim() === "") {
+      
+    } else {
+      $("#player-two-name").text(playerTwo.playerName);
+      $("#player-two-name").removeClass("hidden");
+      $("#player-two-name-update").parent().parent().addClass("hidden")
+    }
+  });
+
+
+// gameplay below this
   $("#player-one-roll").click(function(){
     playerOneRoll();
     $("#player-one-turn-total").text(playerOne.turnTotal);
@@ -122,6 +164,7 @@ $(document).ready(function(){
       $("#winner").children("h1").text(playerTwo.playerName+ " is the winner!")
     } else {}
   });
+
   $("#play-again").click(function() {
     playerOne.turnTotal = 0;
     playerOne.score = 0;
@@ -130,6 +173,7 @@ $(document).ready(function(){
     $("#player-one-turn-total, #player-one-score, #player-two-turn-total, #player-two-score").empty();
     $("#winner, #game").toggleClass("hidden");
   });
+
+
 });
-//Things for tomorrow
-// players can click on their names and update the name to something else
+

@@ -67,5 +67,11 @@ Expected Output: player one is the winner
 
 
 // UI note simple ui player one and two have seperate roll and hold buttons score is displayed above player
-```Goals for tomorrow```
-players can click on their names and update the name to something else
+```Goals for today```
+Ability to play against a computer
+
+second approach, refactor how turns are controlled as a value of the player objects.
+use a conditional to have to computer roll function to happen if its turn value is true.
+create the player and computer object when game style is chosen.
+
+add pigs
